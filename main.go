@@ -7,12 +7,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 	yaml "gopkg.in/yaml.v3"
-	dbDriver "gorm.io/driver/mysql"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
 	"github.com/0n1shi/domain-driven-design/controller"
 	domainUser "github.com/0n1shi/domain-driven-design/domain/user"
-	"github.com/0n1shi/domain-driven-design/infra/repository/mysql"
+	mysqlRepo "github.com/0n1shi/domain-driven-design/infra/repository/mysql"
 	"github.com/0n1shi/domain-driven-design/usecase"
 )
 
@@ -52,15 +52,16 @@ func main() {
 		dbConfig.Host,
 		dbConfig.Port,
 		dbConfig.DB)
-	db, err := gorm.Open(dbDriver.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(fmt.Sprintf("failed to open connection to db: %s", err.Error()))
 	}
-	db.AutoMigrate(&mysql.User{})
-	db.Create(&mysql.User{ID: "c5db1800-ce4c-11de-b99d-731e38b46912", Name: "Mike", Password: "HogeFuga1234"})
-	db.Create(&mysql.User{ID: "c5db1800-ce4c-11de-bd0d-d90699932640", Name: "Bob", Password: "HogeFuga1234"})
+	db.AutoMigrate(&mysqlRepo.User{})
+	db.Create(&mysqlRepo.User{ID: "c5db1800-ce4c-11de-b99d-731e38b46912", Name: "Mike", Password: "HogeFuga1234"})
+	db.Create(&mysqlRepo.User{ID: "c5db1800-ce4c-11de-bd0d-d90699932640", Name: "Bob", Password: "HogeFuga1234"})
 
-	userRepository := mysql.NewUserRepository(db)
+	// setup components
+	userRepository := mysqlRepo.NewUserRepository(db)
 	userService := domainUser.NewUserService(userRepository)
 	userUsecase := usecase.NewUserUsecase(userService)
 	userController := controller.NewUserController(userUsecase)
