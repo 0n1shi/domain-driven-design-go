@@ -52,7 +52,6 @@ func main() {
 		dbConfig.Host,
 		dbConfig.Port,
 		dbConfig.DB)
-	fmt.Printf("dsn: %s\n", dsn)
 	db, err := gorm.Open(dbDriver.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(fmt.Sprintf("failed to open connection to db: %s", err.Error()))
