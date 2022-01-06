@@ -2,7 +2,6 @@ package usecase
 
 import (
 	domainUser "github.com/0n1shi/domain-driven-design/domain/user"
-	"github.com/pkg/errors"
 )
 
 type UserUsecase struct {
@@ -16,7 +15,7 @@ func NewUserUsecase(service *domainUser.UserService) *UserUsecase {
 func (usecase *UserUsecase) FindAll() ([]*DTOUser, error) {
 	users, err := usecase.service.GetAll()
 	if err != nil {
-		return nil, errors.WithStack(err)
+		return nil, err
 	}
 	return ToDTOUsers(users), nil
 }

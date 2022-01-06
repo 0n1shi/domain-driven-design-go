@@ -42,7 +42,7 @@ func (controller *UserController) FindByID(ctx *gin.Context) {
 func (controller *UserController) Create(ctx *gin.Context) {
 	input := usecase.CreateUserInput{}
 	if err := ctx.Bind(&input); err != nil {
-		ctx.Error(errors.WithStack(err)).SetType(gin.ErrorTypePrivate)
+		ctx.Error(errors.WithStack(err)).SetType(gin.ErrorTypePublic)
 		return
 	}
 

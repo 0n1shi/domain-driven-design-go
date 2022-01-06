@@ -1,8 +1,9 @@
 package user
 
 import (
-	"errors"
 	"unicode"
+
+	"github.com/pkg/errors"
 )
 
 type UserPassword struct {
@@ -11,7 +12,7 @@ type UserPassword struct {
 
 func NewUserPassword(password string) (*UserPassword, error) {
 	if !validatePassword(password) {
-		return nil, errors.New("at least 1 upper case, 1 lower case and numeric must be EMBEDDED somewhere in the middle of the password.")
+		return nil, errors.WithStack(ErrorInvalidUserPassword)
 	}
 	return &UserPassword{val: password}, nil
 }

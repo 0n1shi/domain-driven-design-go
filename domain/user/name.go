@@ -8,7 +8,7 @@ type Username struct {
 
 func NewUsername(name string) (*Username, error) {
 	if len(name) < 3 || len(name) > 20 {
-		return nil, errors.New("name is invalid")
+		return nil, errors.WithStack(ErrorInvalidUsername)
 	}
 	return &Username{val: name}, nil
 }

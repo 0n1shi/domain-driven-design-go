@@ -1,7 +1,5 @@
 package user
 
-import "github.com/pkg/errors"
-
 type User struct {
 	id       UserID
 	name     Username
@@ -11,17 +9,17 @@ type User struct {
 func NewUser(name string, password string, id *string) (*User, error) {
 	userID, err := NewUserID(id)
 	if err != nil {
-		return nil, errors.WithStack(err)
+		return nil, err
 	}
 
 	username, err := NewUsername(name)
 	if err != nil {
-		return nil, errors.WithStack(err)
+		return nil, err
 	}
 
 	userPassword, err := NewUserPassword(password)
 	if err != nil {
-		return nil, errors.WithStack(err)
+		return nil, err
 	}
 
 	return &User{

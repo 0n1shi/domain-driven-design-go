@@ -33,7 +33,7 @@ func (repo *UserRepository) FindByID(id *user.UserID) (*user.User, error) {
 	user := User{}
 	result := repo.db.Find(&user)
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, errors.WithStack(result.Error)
 	}
 	domainUser, err := ToDomainUser(user)
 	if err != nil {

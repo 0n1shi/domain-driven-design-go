@@ -16,7 +16,7 @@ func NewUserID(newID *string) (*UserID, error) {
 
 	userID, err := uuid.NewUUID()
 	if err != nil {
-		return nil, errors.WithStack(err)
+		return nil, errors.WithStack(ErrorFailedToGenerateUserID)
 	}
 	return &UserID{val: userID.String()}, nil
 }

@@ -1,7 +1,5 @@
 package user
 
-import "github.com/pkg/errors"
-
 type UserService struct {
 	repository UserRepositoryInterface
 }
@@ -26,7 +24,7 @@ type CreateUserInput struct {
 func (service *UserService) Register(input *CreateUserInput) error {
 	user, err := NewUser(input.Name, input.Password, nil)
 	if err != nil {
-		return errors.WithStack(err)
+		return err
 	}
 	return service.repository.Create(&CreatedUser{
 		ID:       user.id,
