@@ -5,6 +5,7 @@ import (
 
 	"github.com/0n1shi/domain-driven-design/usecase"
 	"github.com/gin-gonic/gin"
+	"github.com/pkg/errors"
 )
 
 type UserController struct {
@@ -18,9 +19,7 @@ func NewUserController(usecase *usecase.UserUsecase) *UserController {
 func (controller *UserController) FindAll(ctx *gin.Context) {
 	users, err := controller.usecase.FindAll()
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"message": "something went wrong ...",
-		})
+		ctx.Error(err).SetType(gin.ErrorTypePrivate)
 		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{
@@ -32,9 +31,7 @@ func (controller *UserController) FindByID(ctx *gin.Context) {
 	id := ctx.Param("id")
 	user, err := controller.usecase.FindByID(id)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"message": "something went wrong ...",
-		})
+		ctx.Error(err).SetType(gin.ErrorTypePrivate)
 		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{
@@ -45,16 +42,12 @@ func (controller *UserController) FindByID(ctx *gin.Context) {
 func (controller *UserController) Create(ctx *gin.Context) {
 	input := usecase.CreateUserInput{}
 	if err := ctx.Bind(&input); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"message": "something went wrong ...",
-		})
+		ctx.Error(errors.WithStack(err)).SetType(gin.ErrorTypePrivate)
 		return
 	}
 
 	if err := controller.usecase.Create(&input); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"message": "something went wrong ...",
-		})
+		ctx.Error(errors.WithStack(err)).SetType(gin.ErrorTypePrivate)
 		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{})

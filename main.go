@@ -68,6 +68,8 @@ func main() {
 	// setup router
 	router := gin.Default()
 	router.Use(gin.Recovery())
+	router.Use(controller.LogError())
+	router.Use(controller.AbortError())
 	users := router.Group("/users")
 	{
 		users.GET("", userController.FindAll)

@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"github.com/0n1shi/domain-driven-design/domain/user"
+	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
 
@@ -19,7 +20,7 @@ func (repo *UserRepository) FindAll() ([]*user.User, error) {
 	users := []User{}
 	result := repo.db.Find(&users)
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, errors.WithStack(result.Error)
 	}
 	domainUsers, err := ToDomainUsers(users)
 	if err != nil {
@@ -50,7 +51,7 @@ func (repo *UserRepository) Create(user *user.CreatedUser) error {
 		Name:     name.Get(),
 		Password: password.Get(),
 	})
-	return result.Error
+	return errors.WithStack(result.Error)
 }
 
 func (repo *UserRepository) Update(user *user.UpdatedUser) error {
