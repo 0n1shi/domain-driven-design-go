@@ -12,7 +12,7 @@ import (
 
 	"github.com/0n1shi/domain-driven-design/controller"
 	domainUser "github.com/0n1shi/domain-driven-design/domain/user"
-	"github.com/0n1shi/domain-driven-design/infra/db/mysql"
+	"github.com/0n1shi/domain-driven-design/infra/repository/mysql"
 	"github.com/0n1shi/domain-driven-design/usecase"
 )
 
@@ -71,6 +71,7 @@ func main() {
 	users := router.Group("/users")
 	{
 		users.GET("", userController.FindAll)
+		users.GET("/:id", userController.FindByID)
 	}
 	router.Run()
 }

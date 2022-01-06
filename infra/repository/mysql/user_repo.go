@@ -28,8 +28,17 @@ func (repo *UserRepository) FindAll() ([]*user.User, error) {
 	return domainUsers, nil
 }
 
-func (repo *UserRepository) FindByID() (*user.User, error) {
-	return &user.User{}, nil
+func (repo *UserRepository) FindByID(id *user.UserID) (*user.User, error) {
+	user := User{}
+	result := repo.db.Find(&user)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	domainUser, err := ToDomainUser(user)
+	if err != nil {
+		return nil, err
+	}
+	return domainUser, nil
 }
 
 func (repo *UserRepository) Create(user *user.User) error {

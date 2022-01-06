@@ -15,7 +15,7 @@ type User struct {
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
-func ToDomainUser(u *User) (*domainUser.User, error) {
+func ToDomainUser(u User) (*domainUser.User, error) {
 	id, err := domainUser.NewUserID(&u.ID)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func ToDomainUser(u *User) (*domainUser.User, error) {
 func ToDomainUsers(users []User) ([]*domainUser.User, error) {
 	domainUsers := []*domainUser.User{}
 	for _, u := range users {
-		domainUser, err := ToDomainUser(&u)
+		domainUser, err := ToDomainUser(u)
 		if err != nil {
 			return nil, err
 		}

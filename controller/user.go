@@ -27,3 +27,17 @@ func (controller *UserController) FindAll(ctx *gin.Context) {
 		"users": users,
 	})
 }
+
+func (controller *UserController) FindByID(ctx *gin.Context) {
+	id := ctx.Param("id")
+	user, err := controller.usecase.FindByID(id)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"message": "something went wrong ...",
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{
+		"user": user,
+	})
+}
