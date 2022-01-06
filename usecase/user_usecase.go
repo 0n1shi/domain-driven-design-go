@@ -14,7 +14,7 @@ func NewUserUsecase(service *domainUser.UserService) *UserUsecase {
 }
 
 func (usecase *UserUsecase) FindAll() ([]*DTOUser, error) {
-	users, err := usecase.service.FindAll()
+	users, err := usecase.service.GetAll()
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
@@ -26,7 +26,7 @@ func (usecase *UserUsecase) FindByID(id string) (*DTOUser, error) {
 	if err != nil {
 		return nil, err
 	}
-	user, err := usecase.service.FindByID(userID)
+	user, err := usecase.service.GetByID(userID)
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +39,7 @@ type CreateUserInput struct {
 }
 
 func (usecase *UserUsecase) Create(input *CreateUserInput) error {
-	return usecase.service.Create(&domainUser.CreateUserInput{
+	return usecase.service.Register(&domainUser.CreateUserInput{
 		Name:     input.Name,
 		Password: input.Password,
 	})

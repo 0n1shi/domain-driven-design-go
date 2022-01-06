@@ -8,11 +8,11 @@ func NewUserService(repo UserRepositoryInterface) *UserService {
 	return &UserService{repository: repo}
 }
 
-func (service *UserService) FindAll() ([]*User, error) {
+func (service *UserService) GetAll() ([]*User, error) {
 	return service.repository.FindAll()
 }
 
-func (service *UserService) FindByID(id *UserID) (*User, error) {
+func (service *UserService) GetByID(id *UserID) (*User, error) {
 	return service.repository.FindByID(id)
 }
 
@@ -21,7 +21,7 @@ type CreateUserInput struct {
 	Password string `json:"password"`
 }
 
-func (service *UserService) Create(input *CreateUserInput) error {
+func (service *UserService) Register(input *CreateUserInput) error {
 	user, err := NewUser(input.Name, input.Password, nil)
 	if err != nil {
 		return err
