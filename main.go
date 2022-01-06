@@ -59,8 +59,8 @@ func main() {
 	}
 
 	db.AutoMigrate(&mysql.User{})
-	db.Create(&mysql.User{ID: "c5db1800-ce4c-11de-b99d-731e38b46912", Name: "Mike"})
-	db.Create(&mysql.User{ID: "c5db1800-ce4c-11de-bd0d-d90699932640", Name: "Bob"})
+	db.Create(&mysql.User{ID: "c5db1800-ce4c-11de-b99d-731e38b46912", Name: "Mike", Password: "HogeFuga1234"})
+	db.Create(&mysql.User{ID: "c5db1800-ce4c-11de-bd0d-d90699932640", Name: "Bob", Password: "HogeFuga1234"})
 
 	userRepository := mysql.NewUserRepository(db)
 	userService := domainUser.NewUserService(userRepository)
@@ -72,6 +72,7 @@ func main() {
 	{
 		users.GET("", userController.FindAll)
 		users.GET("/:id", userController.FindByID)
+		users.POST("", userController.Create)
 	}
 	router.Run()
 }

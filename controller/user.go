@@ -41,3 +41,21 @@ func (controller *UserController) FindByID(ctx *gin.Context) {
 		"user": user,
 	})
 }
+
+func (controller *UserController) Create(ctx *gin.Context) {
+	input := usecase.CreateUserInput{}
+	if err := ctx.Bind(&input); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"message": "something went wrong ...",
+		})
+		return
+	}
+
+	if err := controller.usecase.Create(&input); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"message": "something went wrong ...",
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{})
+}

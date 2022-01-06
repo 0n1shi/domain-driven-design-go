@@ -32,3 +32,15 @@ func (usecase *UserUsecase) FindByID(id string) (*DTOUser, error) {
 	}
 	return ToDTOUser(user), nil
 }
+
+type CreateUserInput struct {
+	Name     string
+	Password string
+}
+
+func (usecase *UserUsecase) Create(input *CreateUserInput) error {
+	return usecase.service.Create(&domainUser.CreateUserInput{
+		Name:     input.Name,
+		Password: input.Password,
+	})
+}

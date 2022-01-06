@@ -41,11 +41,19 @@ func (repo *UserRepository) FindByID(id *user.UserID) (*user.User, error) {
 	return domainUser, nil
 }
 
-func (repo *UserRepository) Create(user *user.User) error {
-	return nil
+func (repo *UserRepository) Create(user *user.CreatedUser) error {
+	id := user.ID
+	name := user.Name
+	password := user.Password
+	result := repo.db.Create(&User{
+		ID:       id.Get(),
+		Name:     name.Get(),
+		Password: password.Get(),
+	})
+	return result.Error
 }
 
-func (repo *UserRepository) Update(user *user.User) error {
+func (repo *UserRepository) Update(user *user.UpdatedUser) error {
 	return nil
 }
 

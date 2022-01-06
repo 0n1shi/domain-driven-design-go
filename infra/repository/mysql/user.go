@@ -9,27 +9,15 @@ import (
 
 type User struct {
 	ID        string `gorm:"size:36"`
-	Name      string
+	Name      string `gorm:"not null"`
+	Password  string `gorm:"not null"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
 func ToDomainUser(u User) (*domainUser.User, error) {
-	id, err := domainUser.NewUserID(&u.ID)
-	if err != nil {
-		return nil, err
-	}
-
-	name, err := domainUser.NewUsername(u.Name)
-	if err != nil {
-		return nil, err
-	}
-
-	return &domainUser.User{
-		ID:   *id,
-		Name: *name,
-	}, nil
+	return domainUser.NewUser(u.Name, u.Password, &u.ID)
 }
 
 func ToDomainUsers(users []User) ([]*domainUser.User, error) {
