@@ -20,3 +20,7 @@ func NewUserID(newID *string) (*UserID, error) {
 	}
 	return &UserID{val: userID.String()}, nil
 }
+
+func (id *UserID) Get() string {
+	return id.val
+}

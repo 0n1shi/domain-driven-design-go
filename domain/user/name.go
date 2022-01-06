@@ -12,3 +12,7 @@ func NewUsername(name string) (*Username, error) {
 	}
 	return &Username{Name: name}, nil
 }
+
+func (name *Username) Get() string {
+	return name.Get()
+}
