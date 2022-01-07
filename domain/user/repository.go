@@ -14,6 +14,7 @@ type UpdatedUser struct {
 type UserRepositoryInterface interface {
 	FindAll() ([]*User, error)
 	FindByID(id *UserID) (*User, error)
+	FindByName(id *Username) (*User, error)
 	Create(user *CreatedUser) error
 	Update(user *UpdatedUser) error
 	Delete(id *UserID) error

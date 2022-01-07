@@ -37,9 +37,23 @@ type CreateUserInput struct {
 	Password string
 }
 
-func (usecase *UserUsecase) Create(input *CreateUserInput) error {
-	return usecase.service.Register(&domainUser.CreateUserInput{
+func (usecase *UserUsecase) Create(input *CreateUserInput) (*DTOUser, error) {
+	if err := usecase.service.Register(&domainUser.CreateUserInput{
 		Name:     input.Name,
 		Password: input.Password,
-	})
+	}); err != nil {
+		return nil, err
+	}
+
+	name, err := domainUser.NewUsername(input.Name)
+	if err != nil {
+		return nil, err
+	}
+
+	user, err := usecase.service.GetByName(name)
+	if err != nil {
+		return nil, err
+	}
+
+	return ToDTOUser(user), nil
 }

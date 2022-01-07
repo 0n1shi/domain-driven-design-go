@@ -3,7 +3,7 @@ package user
 import "github.com/pkg/errors"
 
 type Username struct {
-	val string
+	val string // must be unique value
 }
 
 func NewUsername(name string) (*Username, error) {

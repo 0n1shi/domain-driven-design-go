@@ -32,7 +32,20 @@ func (repo *UserRepository) FindAll() ([]*user.User, error) {
 
 func (repo *UserRepository) FindByID(id *user.UserID) (*user.User, error) {
 	user := User{}
-	result := repo.db.Find(&user)
+	result := repo.db.First(&user)
+	if result.Error != nil {
+		return nil, errors.WithStack(result.Error)
+	}
+	domainUser, err := ToDomainUser(user)
+	if err != nil {
+		return nil, err
+	}
+	return domainUser, nil
+}
+
+func (repo *UserRepository) FindByName(name *user.Username) (*user.User, error) {
+	user := User{}
+	result := repo.db.Where("name = ?", name.Get()).First(&user)
 	if result.Error != nil {
 		return nil, errors.WithStack(result.Error)
 	}

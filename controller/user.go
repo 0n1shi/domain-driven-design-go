@@ -46,9 +46,12 @@ func (controller *UserController) Create(ctx *gin.Context) {
 		return
 	}
 
-	if err := controller.usecase.Create(&input); err != nil {
+	user, err := controller.usecase.Create(&input)
+	if err != nil {
 		ctx.Error(errors.WithStack(err)).SetType(gin.ErrorTypePrivate)
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{})
+	ctx.JSON(http.StatusOK, gin.H{
+		"user": user,
+	})
 }
