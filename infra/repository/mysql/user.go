@@ -9,7 +9,7 @@ import (
 
 type User struct {
 	ID        string `gorm:"size:36"`
-	Name      string `gorm:"not null"`
+	Name      string `gorm:"not null,unique"`
 	Password  string `gorm:"not null"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
