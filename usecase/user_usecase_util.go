@@ -2,6 +2,7 @@ package usecase
 
 import (
 	domainUser "github.com/0n1shi/domain-driven-design/domain/user"
+	"github.com/pkg/errors"
 )
 
 type DTOUser struct {
@@ -27,4 +28,20 @@ func ToDTOUsers(users []*domainUser.User) []*DTOUser {
 		dtoUsers = append(dtoUsers, ToDTOUser(u))
 	}
 	return dtoUsers
+}
+
+var publicErrors = []error{
+	domainUser.ErrorInvalidUsername,
+	domainUser.ErrorFailedToGenerateUserID,
+	domainUser.ErrorInvalidUserPassword,
+	domainUser.ErorrUserAlreadyRegistered,
+}
+
+func IsPublicErorr(err error) bool {
+	for _, e := range publicErrors {
+		if errors.Is(err, e) {
+			return true
+		}
+	}
+	return false
 }
