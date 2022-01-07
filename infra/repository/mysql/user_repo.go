@@ -13,7 +13,6 @@ type UserRepository struct {
 var _ user.UserRepositoryInterface = (*UserRepository)(nil)
 
 func NewUserRepository(db *gorm.DB) *UserRepository {
-
 	return &UserRepository{db: db}
 }
 
