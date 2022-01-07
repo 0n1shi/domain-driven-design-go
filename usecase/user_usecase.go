@@ -33,8 +33,8 @@ func (usecase *UserUsecase) FindByID(id string) (*DTOUser, error) {
 }
 
 type CreateUserInput struct {
-	Name     string
-	Password string
+	Name     string `json:"name" validate:"required,min=3,max=20"`
+	Password string `json:"password" validate:"required"`
 }
 
 func (usecase *UserUsecase) Create(input *CreateUserInput) (*DTOUser, error) {

@@ -12,3 +12,7 @@ func SetError(ctx *gin.Context, err error) {
 	}
 	ctx.Error(err).SetType(errType)
 }
+
+func SetErrorPublic(ctx *gin.Context, err error) {
+	ctx.Error(err).SetType(gin.ErrorTypePublic)
+}

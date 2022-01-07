@@ -5,14 +5,19 @@ import (
 
 	"github.com/0n1shi/domain-driven-design/usecase"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 type UserController struct {
-	usecase *usecase.UserUsecase
+	usecase   *usecase.UserUsecase
+	validator *validator.Validate
 }
 
 func NewUserController(usecase *usecase.UserUsecase) *UserController {
-	return &UserController{usecase: usecase}
+	return &UserController{
+		usecase:   usecase,
+		validator: validator.New(),
+	}
 }
 
 func (controller *UserController) FindAll(ctx *gin.Context) {
@@ -42,6 +47,10 @@ func (controller *UserController) Create(ctx *gin.Context) {
 	input := usecase.CreateUserInput{}
 	if err := ctx.Bind(&input); err != nil {
 		SetError(ctx, err)
+		return
+	}
+	if err := controller.validator.Struct(input); err != nil {
+		SetErrorPublic(ctx, err)
 		return
 	}
 	user, err := controller.usecase.Create(&input)
