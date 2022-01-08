@@ -47,3 +47,11 @@ func (service *UserService) Register(input *CreateUserInput) error {
 		Password: *hashedPassword,
 	})
 }
+
+func (service *UserService) isNameRegistered(name *Username) bool {
+	_, err := service.repository.FindByName(name)
+	if err != nil {
+		return false
+	}
+	return true
+}
