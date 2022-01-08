@@ -58,8 +58,16 @@ func main() {
 	}
 	db.AutoMigrate(&mysqlRepo.User{})
 
+	// setup for redis
+	// redisClient := redis.NewClient(&redis.Options{
+	// 	Addr:     "localhost:6379",
+	// 	Password: "", // no password set
+	// 	DB:       0,  // use default DB
+	// })
+
 	// setup components
 	userRepository := mysqlRepo.NewUserRepository(db)
+	// userRepository := redisRepo.NewUserRepository(redisClient)
 	userService := domainUser.NewUserService(userRepository)
 	userUsecase := usecase.NewUserUsecase(userService)
 	userController := controller.NewUserController(userUsecase)

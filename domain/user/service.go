@@ -33,10 +33,7 @@ func (service *UserService) Register(input *CreateUserInput) error {
 		return err
 	}
 	name := user.GetName()
-	found, err := service.isNameRegistered(&name)
-	if err != nil {
-		return err
-	}
+	found := service.isNameRegistered(&name)
 	if found {
 		return errors.WithStack(ErorrUserAlreadyRegistered)
 	}

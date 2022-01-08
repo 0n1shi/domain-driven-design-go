@@ -56,13 +56,10 @@ func (repo *UserRepository) FindByName(name *user.Username) (*user.User, error) 
 }
 
 func (repo *UserRepository) Create(user *user.CreatedUser) error {
-	id := user.ID
-	name := user.Name
-	password := user.Password
 	result := repo.db.Create(&User{
-		ID:       id.Get(),
-		Name:     name.Get(),
-		Password: password.Get(),
+		ID:       user.ID.Get(),
+		Name:     user.Name.Get(),
+		Password: user.Password.Get(),
 	})
 	return errors.WithStack(result.Error)
 }

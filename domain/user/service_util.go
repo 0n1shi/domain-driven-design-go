@@ -1,21 +1,15 @@
 package user
 
 import (
-	"errors"
-
 	"golang.org/x/crypto/bcrypt"
-	"gorm.io/gorm"
 )
 
-func (service *UserService) isNameRegistered(name *Username) (bool, error) {
+func (service *UserService) isNameRegistered(name *Username) bool {
 	_, err := service.repository.FindByName(name)
 	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return false, nil
-		}
-		return false, err
+		return false
 	}
-	return true, nil
+	return true
 }
 
 func hashPassword(password string) (*UserPassword, error) {
