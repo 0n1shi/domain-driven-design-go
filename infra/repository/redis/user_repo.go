@@ -1,35 +1,33 @@
 package redis
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 
-	redis "github.com/go-redis/redis/v8"
+	"github.com/go-redis/redis"
 	"github.com/pkg/errors"
 
 	"github.com/0n1shi/domain-driven-design/domain/user"
 )
 
 type UserRepository struct {
-	client  *redis.Client
-	context context.Context
+	client *redis.Client
 }
 
 var _ user.UserRepositoryInterface = (*UserRepository)(nil)
 
 func NewUserRepository(client *redis.Client) *UserRepository {
-	return &UserRepository{client: client, context: context.Background()}
+	return &UserRepository{client: client}
 }
 
 func (repo *UserRepository) FindAll() ([]*user.User, error) {
-	keys, err := repo.client.Keys(repo.context, "*").Result()
+	keys, err := repo.client.Keys("*").Result()
 	if err != nil {
 		return nil, err
 	}
 	users := []*user.User{}
 	for _, key := range keys {
-		strData, err := repo.client.Get(repo.context, key).Result()
+		strData, err := repo.client.Get(key).Result()
 		if err != nil {
 			return nil, err
 		}
@@ -47,7 +45,7 @@ func (repo *UserRepository) FindAll() ([]*user.User, error) {
 }
 
 func (repo *UserRepository) FindByID(id *user.UserID) (*user.User, error) {
-	strData, err := repo.client.Get(repo.context, id.Get()).Result()
+	strData, err := repo.client.Get(id.Get()).Result()
 	if err != nil {
 		return nil, err
 	}
@@ -63,12 +61,12 @@ func (repo *UserRepository) FindByID(id *user.UserID) (*user.User, error) {
 }
 
 func (repo *UserRepository) FindByName(name *user.Username) (*user.User, error) {
-	keys, err := repo.client.Keys(repo.context, "*").Result()
+	keys, err := repo.client.Keys("*").Result()
 	if err != nil {
 		return nil, err
 	}
 	for _, key := range keys {
-		strData, err := repo.client.Get(repo.context, key).Result()
+		strData, err := repo.client.Get(key).Result()
 		if err != nil {
 			return nil, err
 		}
@@ -97,9 +95,7 @@ func (repo *UserRepository) Create(user *user.CreatedUser) error {
 	if err != nil {
 		return errors.WithStack(err)
 	}
-	id := user.ID
-	key := id.Get()
-	return repo.client.Set(repo.context, key, string(data), 0).Err()
+	return repo.client.Set(user.ID.Get(), string(data), 0).Err()
 }
 
 func (repo *UserRepository) Update(user *user.UpdatedUser) error {
