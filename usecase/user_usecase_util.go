@@ -6,19 +6,16 @@ import (
 )
 
 type DTOUser struct {
-	ID       string `json:"id"`
-	Name     string `json:"name"`
-	Password string `json:"password"`
+	ID   string `json:"id"`
+	Name string `json:"name"`
 }
 
 func ToDTOUser(user *domainUser.User) *DTOUser {
 	id := user.GetID()
 	name := user.GetName()
-	password := user.GetPassword()
 	return &DTOUser{
-		ID:       id.Get(),
-		Name:     name.Get(),
-		Password: password.Get(),
+		ID:   id.Get(),
+		Name: name.Get(),
 	}
 }
 

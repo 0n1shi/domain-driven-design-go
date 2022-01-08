@@ -40,9 +40,13 @@ func (service *UserService) Register(input *CreateUserInput) error {
 	if found {
 		return errors.WithStack(ErorrUserAlreadyRegistered)
 	}
+	hashedPassword, err := hashPassword(user.password.Get())
+	if err != nil {
+		return err
+	}
 	return service.repository.Create(&CreatedUser{
 		ID:       user.id,
 		Name:     user.name,
-		Password: user.password,
+		Password: *hashedPassword,
 	})
 }

@@ -57,8 +57,6 @@ func main() {
 		panic(fmt.Sprintf("failed to open connection to db: %s", err.Error()))
 	}
 	db.AutoMigrate(&mysqlRepo.User{})
-	db.Create(&mysqlRepo.User{ID: "c5db1800-ce4c-11de-b99d-731e38b46912", Name: "Mike", Password: "HogeFuga1234"})
-	db.Create(&mysqlRepo.User{ID: "c5db1800-ce4c-11de-bd0d-d90699932640", Name: "Bob", Password: "HogeFuga1234"})
 
 	// setup components
 	userRepository := mysqlRepo.NewUserRepository(db)
