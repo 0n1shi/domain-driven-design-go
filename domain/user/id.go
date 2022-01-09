@@ -15,7 +15,7 @@ type UserID interface {
 
 var _ UserID = (*userID)(nil)
 
-func NewUserID(newID *string) (*userID, error) {
+func NewUserID(newID *string) (UserID, error) {
 	if newID != nil {
 		return &userID{val: *newID}, nil
 	}

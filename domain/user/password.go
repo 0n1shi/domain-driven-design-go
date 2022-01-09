@@ -6,18 +6,24 @@ import (
 	"github.com/pkg/errors"
 )
 
-type UserPassword struct {
+type userPassword struct {
 	val string
 }
 
-func NewUserPassword(password string) (*UserPassword, error) {
+type UserPassword interface {
+	Get() string
+}
+
+var _ UserPassword = (*userPassword)(nil)
+
+func NewUserPassword(password string) (UserPassword, error) {
 	if !validatePassword(password) {
 		return nil, errors.WithStack(ErrorInvalidUserPassword)
 	}
-	return &UserPassword{val: password}, nil
+	return &userPassword{val: password}, nil
 }
 
-func (password *UserPassword) Get() string {
+func (password *userPassword) Get() string {
 	return password.val
 }
 

@@ -44,7 +44,7 @@ func (service *UserService) Register(input *CreateUserInput) error {
 	return service.repository.Create(&CreatedUser{
 		ID:       user.id,
 		Name:     user.name,
-		Password: *hashedPassword,
+		Password: hashedPassword,
 	})
 }
 
