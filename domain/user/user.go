@@ -24,7 +24,7 @@ func NewUser(name string, password string, id *string) (*User, error) {
 
 	return &User{
 		id:       uid,
-		name:     *username,
+		name:     username,
 		password: *userPassword,
 	}, nil
 }

@@ -60,7 +60,7 @@ func (repo *UserRepository) FindByID(id user.UserID) (*user.User, error) {
 	return u, nil
 }
 
-func (repo *UserRepository) FindByName(name *user.Username) (*user.User, error) {
+func (repo *UserRepository) FindByName(name user.Username) (*user.User, error) {
 	keys, err := repo.client.Keys("*").Result()
 	if err != nil {
 		return nil, err

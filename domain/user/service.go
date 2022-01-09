@@ -18,7 +18,7 @@ func (service *UserService) GetByID(id UserID) (*User, error) {
 	return service.repository.FindByID(id)
 }
 
-func (service *UserService) GetByName(name *Username) (*User, error) {
+func (service *UserService) GetByName(name Username) (*User, error) {
 	return service.repository.FindByName(name)
 }
 
@@ -33,7 +33,7 @@ func (service *UserService) Register(input *CreateUserInput) error {
 		return err
 	}
 	name := user.GetName()
-	found := service.isNameRegistered(&name)
+	found := service.isNameRegistered(name)
 	if found {
 		return errors.WithStack(ErorrUserAlreadyRegistered)
 	}
@@ -48,7 +48,7 @@ func (service *UserService) Register(input *CreateUserInput) error {
 	})
 }
 
-func (service *UserService) isNameRegistered(name *Username) bool {
+func (service *UserService) isNameRegistered(name Username) bool {
 	_, err := service.repository.FindByName(name)
 	if err != nil {
 		return false

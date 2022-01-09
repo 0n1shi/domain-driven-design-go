@@ -42,7 +42,7 @@ func (repo *UserRepository) FindByID(id user.UserID) (*user.User, error) {
 	return domainUser, nil
 }
 
-func (repo *UserRepository) FindByName(name *user.Username) (*user.User, error) {
+func (repo *UserRepository) FindByName(name user.Username) (*user.User, error) {
 	user := User{}
 	result := repo.db.Where("name = ?", name.Get()).First(&user)
 	if result.Error != nil {
