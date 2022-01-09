@@ -7,7 +7,7 @@ type User struct {
 }
 
 func NewUser(name string, password string, id *string) (*User, error) {
-	userID, err := NewUserID(id)
+	uid, err := NewUserID(id)
 	if err != nil {
 		return nil, err
 	}
@@ -23,7 +23,7 @@ func NewUser(name string, password string, id *string) (*User, error) {
 	}
 
 	return &User{
-		id:       *userID,
+		id:       uid,
 		name:     *username,
 		password: *userPassword,
 	}, nil

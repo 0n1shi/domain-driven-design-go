@@ -44,7 +44,7 @@ func (repo *UserRepository) FindAll() ([]*user.User, error) {
 	return users, nil
 }
 
-func (repo *UserRepository) FindByID(id *user.UserID) (*user.User, error) {
+func (repo *UserRepository) FindByID(id user.UserID) (*user.User, error) {
 	strData, err := repo.client.Get(id.Get()).Result()
 	if err != nil {
 		return nil, err
@@ -102,6 +102,6 @@ func (repo *UserRepository) Update(user *user.UpdatedUser) error {
 	return nil
 }
 
-func (repo *UserRepository) Delete(id *user.UserID) error {
+func (repo *UserRepository) Delete(id user.UserID) error {
 	return nil
 }

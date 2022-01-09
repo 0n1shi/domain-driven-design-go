@@ -14,7 +14,7 @@ func (service *UserService) GetAll() ([]*User, error) {
 	return service.repository.FindAll()
 }
 
-func (service *UserService) GetByID(id *UserID) (*User, error) {
+func (service *UserService) GetByID(id UserID) (*User, error) {
 	return service.repository.FindByID(id)
 }
 

@@ -5,22 +5,28 @@ import (
 	"github.com/pkg/errors"
 )
 
-type UserID struct {
+type userID struct {
 	val string
 }
 
-func NewUserID(newID *string) (*UserID, error) {
+type UserID interface {
+	Get() string
+}
+
+var _ UserID = (*userID)(nil)
+
+func NewUserID(newID *string) (*userID, error) {
 	if newID != nil {
-		return &UserID{val: *newID}, nil
+		return &userID{val: *newID}, nil
 	}
 
-	userID, err := uuid.NewUUID()
+	id, err := uuid.NewUUID()
 	if err != nil {
 		return nil, errors.WithStack(ErrorFailedToGenerateUserID)
 	}
-	return &UserID{val: userID.String()}, nil
+	return &userID{val: id.String()}, nil
 }
 
-func (id *UserID) Get() string {
+func (id *userID) Get() string {
 	return id.val
 }

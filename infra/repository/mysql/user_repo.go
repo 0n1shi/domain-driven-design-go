@@ -29,7 +29,7 @@ func (repo *UserRepository) FindAll() ([]*user.User, error) {
 	return domainUsers, nil
 }
 
-func (repo *UserRepository) FindByID(id *user.UserID) (*user.User, error) {
+func (repo *UserRepository) FindByID(id user.UserID) (*user.User, error) {
 	user := User{}
 	result := repo.db.First(&user)
 	if result.Error != nil {
@@ -68,6 +68,6 @@ func (repo *UserRepository) Update(user *user.UpdatedUser) error {
 	return nil
 }
 
-func (repo *UserRepository) Delete(id *user.UserID) error {
+func (repo *UserRepository) Delete(id user.UserID) error {
 	return nil
 }
