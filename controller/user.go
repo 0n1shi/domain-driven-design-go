@@ -26,9 +26,7 @@ func (controller *UserController) FindAll(ctx *gin.Context) {
 		SetError(ctx, err)
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{
-		"users": users,
-	})
+	ctx.JSON(http.StatusOK, gin.H{"users": users})
 }
 
 func (controller *UserController) FindByID(ctx *gin.Context) {
@@ -38,9 +36,7 @@ func (controller *UserController) FindByID(ctx *gin.Context) {
 		SetError(ctx, err)
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{
-		"user": user,
-	})
+	ctx.JSON(http.StatusOK, gin.H{"user": user})
 }
 
 func (controller *UserController) Create(ctx *gin.Context) {
@@ -58,7 +54,5 @@ func (controller *UserController) Create(ctx *gin.Context) {
 		SetError(ctx, err)
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{
-		"user": user,
-	})
+	ctx.JSON(http.StatusOK, gin.H{"user": user})
 }
